@@ -21,8 +21,11 @@ class octoprint_vesync_plugin(octoprint.plugin.SettingsPlugin,
 
     def get_settings_defaults(self):
         return dict(
-            # put your plugin's default settings here
+            url="https://en.wikipedia.org/wiki/Hello_world"
         )
+
+    def get_template_vars(self):
+        return dict(url=self._settings.get(['url']))
 
     # ~~ AssetPlugin mixin
 
@@ -30,9 +33,9 @@ class octoprint_vesync_plugin(octoprint.plugin.SettingsPlugin,
         # Define your plugin's asset files to automatically include in the
         # core UI here.
         return dict(
-            js=["js/OctoPrint-VeSync.js"],
-            css=["css/OctoPrint-VeSync.css"],
-            less=["less/OctoPrint-VeSync.less"]
+            js=["js/octoprint_vesync.js"],
+            css=["css/octoprint_vesync.css"],
+            less=["less/octoprint_vesync.less"]
         )
 
     # ~~ Softwareupdate hook
@@ -70,7 +73,7 @@ __plugin_name__ = "OctoPrint-VeSync"
 # Python 2. New plugins should make sure to run under both versions for now. Uncomment one of the following
 # compatibility flags according to what Python versions your plugin supports!
 # __plugin_pythoncompat__ = ">=2.7,<3" # only python 2
-__plugin_pythoncompat__ = ">=3,<4" # only python 3
+__plugin_pythoncompat__ = ">=3,<4"  # only python 3
 # __plugin_pythoncompat__ = ">=2.7,<4" # python 2 and 3
 
 
