@@ -21,11 +21,23 @@ class octoprint_vesync_plugin(octoprint.plugin.SettingsPlugin,
 
     def get_settings_defaults(self):
         return dict(
-            url="https://en.wikipedia.org/wiki/Hello_world"
+            email="",
+            password=""
         )
 
-    def get_template_vars(self):
-        return dict(url=self._settings.get(['url']))
+    def get_template_configs(self):
+        return [
+            dict(type="settings", custom_bindings=False)
+        ]
+
+    def on_settings_save(self, data):
+        old_email = self._settings.get(["email"])
+        old_password = self._settings.get(["password"])
+
+        octoprint.plugin.SettingsPlugin.on_settings_save(self, data)
+
+        if old_email != self._settings.get(['email']) or old_password != self._settings.get(['password']):
+            self._logger.info("Login information updated.")
 
     # ~~ AssetPlugin mixin
 
@@ -61,13 +73,13 @@ class octoprint_vesync_plugin(octoprint.plugin.SettingsPlugin,
         )
 
     def on_after_startup(self):
-        self._logger.info("Hello World!")
+        self._logger.info("Octoprint Vesync successfully started.")
 
 
 # If you want your plugin to be registered within OctoPrint under a different name than what you defined in setup.py
 # ("OctoPrint-PluginSkeleton"), you may define that here. Same goes for the other metadata derived from setup.py that
 # can be overwritten via __plugin_xyz__ control properties. See the documentation for that.
-__plugin_name__ = "OctoPrint-VeSync"
+__plugin_name__ = "OctoPrint VeSync"
 
 # Starting with OctoPrint 1.4.0 OctoPrint will also support to run under Python 3 in addition to the deprecated
 # Python 2. New plugins should make sure to run under both versions for now. Uncomment one of the following

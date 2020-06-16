@@ -11,7 +11,7 @@ plugin_package = "octoprint_vesync"
 
 # The plugin's human readable name. Can be overwritten within OctoPrint's internal data via __plugin_name__ in the
 # plugin module
-plugin_name = "OctoPrint-VeSync"
+plugin_name = "OctoPrint VeSync"
 
 # The plugin's version. Can be overwritten within OctoPrint's internal data via __plugin_version__ in the plugin module
 plugin_version = "0.1.0"
