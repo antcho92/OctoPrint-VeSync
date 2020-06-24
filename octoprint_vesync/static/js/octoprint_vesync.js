@@ -13,6 +13,22 @@ $(function() {
         // self.settingsViewModel = parameters[1];
 
         // TODO: Implement your plugin's view model here.
+        self.devices = ko.observableArray([])
+
+        // MOCK MODEL
+        var devices = [
+            {
+                "name": 'printer',
+                "action": "turn On"
+            },
+            {
+                "name": 'lamp',
+                "action": "turnn off"
+            }
+        ]
+        for (i = 0; i< devices.length; i++) {
+            self.devices.push(devices[i])
+        }
     }
 
     /* view model class, parameters for constructor, container to bind to
@@ -22,8 +38,8 @@ $(function() {
     OCTOPRINT_VIEWMODELS.push({
         construct: OctoprintVesyncViewModel,
         // ViewModels your plugin depends on, e.g. loginStateViewModel, settingsViewModel, ...
-        dependencies: [ /* "loginStateViewModel", "settingsViewModel" */ ],
+        dependencies: [ "loginStateViewModel", "settingsViewModel" ],
         // Elements to bind to, e.g. #settings_plugin_OctoPrint-VeSync, #tab_plugin_OctoPrint-VeSync, ...
-        elements: [ /* ... */ ]
+        elements: [ "#tab_plugin_octoprint_vesync" ]
     });
 });

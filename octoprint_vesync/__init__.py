@@ -10,6 +10,7 @@ from __future__ import absolute_import
 # Take a look at the documentation on what other plugin mixins are available.
 
 import octoprint.plugin
+from pyvesync import VeSync
 
 
 class octoprint_vesync_plugin(octoprint.plugin.SettingsPlugin,
@@ -17,17 +18,22 @@ class octoprint_vesync_plugin(octoprint.plugin.SettingsPlugin,
                               octoprint.plugin.TemplatePlugin,
                               octoprint.plugin.StartupPlugin):
 
-    # ~~ SettingsPlugin mixin
+    def __init__(self):
+        super().__init__()
+        self.manager = None
 
+    # ~~ SettingsPlugin mixin
     def get_settings_defaults(self):
         return dict(
             email="",
-            password=""
+            password="",
+            timezone="America/New_York"
         )
 
     def get_template_configs(self):
         return [
-            dict(type="settings", custom_bindings=False)
+            dict(type="settings", custom_bindings=False),
+            dict(type="tab", custom_bindings=True)
         ]
 
     def on_settings_save(self, data):
@@ -74,6 +80,11 @@ class octoprint_vesync_plugin(octoprint.plugin.SettingsPlugin,
 
     def on_after_startup(self):
         self._logger.info("Octoprint Vesync successfully started.")
+        self.manager = VeSync(self._settings.get(["email"]), self._settings.get(
+            ["password"]), time_zone=self._settings.get(["timezone"]))
+        self.manager.login()
+        self.manager.update()
+        self._logger.info(self.manager.outlets)
 
 
 # If you want your plugin to be registered within OctoPrint under a different name than what you defined in setup.py
